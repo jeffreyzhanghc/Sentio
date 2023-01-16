@@ -33,24 +33,22 @@ const Map: { [index: number]: [string, [string, string, number][]] } = {
 
 const handleSwapOut = function (tokenName: string, decimal: number) {
   return async function (event: FundsDepositedEvent, ctx: AcrossContext) {
-    const amount = scaleDown(event.args.amount, decimal)
+    const OutAmount = scaleDown(event.args.amount, decimal)
     const dstChain = chain.getChainName(event.args.destinationChainId.toNumber())
-    ctx.meter.Gauge("transfer_out").record(amount, { "token": tokenName, "dst": dstChain })
+    ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": dstChain })
   }
 }
 
-/*
-const handleSwapIn = function (chainId: number, tokenName: string, decimal: number) {
+const handleSwapIn = function (tokenName: string, decimal: number,tokenAddr: string) {
   return async function (event: FilledRelayEvent, ctx: AcrossContext) {
-    const amount = scaleDown(event.args.amount, decimal)
+    const InAmount = scaleDown(event.args.amount, decimal)
     const srcChain = chain.getChainName(event.args.originChainId.toNumber())
-    if (event.args.destinationToken == tokenName[chainId]) {
-      ctx.meter.Gauge("transfer_in").record(amount, { "token": tokenName, "src": srcChain })
-      ctx.meter.Counter("transfer_in_cul").add(1, { "token": tokenName, "src": srcChain })
+    if (event.args.destinationToken==tokenAddr){
+      ctx.meter.Gauge("transfer_in").record(InAmount, { "token": tokenName, "src": srcChain })
     }
-  }
 }
-*/
+}
+
 
 for (const [chainId, [SpokePoolAddr, tokenList]] of Object.entries(Map)) {
   for (const [tokenName, tokenAddr, decimal] of tokenList) {
@@ -58,6 +56,9 @@ for (const [chainId, [SpokePoolAddr, tokenList]] of Object.entries(Map)) {
       .onEventFundsDeposited(
         handleSwapOut(tokenName, decimal),
         AcrossProcessor.filters.FundsDeposited(null, null, null, null, null, null, tokenAddr)
+      )
+      .onEventFilledRelay(
+        handleSwapIn(tokenName, decimal,tokenAddr)
       )
   }
 }
