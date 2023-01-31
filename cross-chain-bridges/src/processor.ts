@@ -11,7 +11,7 @@ import {
   WithdrawalBondedEvent as WithdrawalBondedEthereumEvent
 } from "./types/hopbridgeethereum";
 import { StargatePoolContext, StargatePoolProcessor, SwapEvent, SwapRemoteEvent } from "./types/stargatepool";
-import { AcrossToContext, AcrossToProcessor, FundsDepositedEvent, FilledRelayEvent } from "./types/acrossto";
+import { AcrossToContext, AcrossToProcessor, FundsDepositedEvent, FilledRelayEvent,TokensBridgedEvent } from "./types/acrossto";
 import { MultichainMap, CBridgeMap, HopMap, StargateMap, AcrossMap } from "./addresses";
 
 const EthPrice = 1200
@@ -22,7 +22,6 @@ const mapOrder = function (value: BigNumber): string {
   else if (value.gt(100) && value.lte(3000)) return "medium ($100~$3k)";
   else return "large (>$3k)";
 }
-
 const generateLabel = function (
   chainName: string,
   tokenName: string,
@@ -93,6 +92,17 @@ const handleSwapOutAcross = function (chainId: string, tokenName: string, decima
   const labelAmount = generateLabel(chainName, tokenName, "AcrossTo", true)
   return async function (event: FundsDepositedEvent, ctx: AcrossToContext) {
     var value = token.scaleDown(event.args.amount, decimal)
+    if (tokenName == "ETH") value = value.multipliedBy(EthPrice)
+    ctx.meter.Gauge("swapOutAmount").record(value, labelAmount)
+    ctx.meter.Gauge("swapOutType").record(1, {...labelAmount, "type": mapOrder(value)})
+  }
+}
+
+const handleSwapOutAcrossuguigiu = function (chainId: string, tokenName: string, decimal: number) {
+  const chainName = chain.getChainName(chainId).toLowerCase()
+  const labelAmount = generateLabel(chainName, tokenName, "AcrossTo", true)
+  return async function (event: TokensBridgedEvent, ctx: AcrossToContext) {
+    var value = token.scaleDown(event.args., decimal)
     if (tokenName == "ETH") value = value.multipliedBy(EthPrice)
     ctx.meter.Gauge("swapOutAmount").record(value, labelAmount)
     ctx.meter.Gauge("swapOutType").record(1, {...labelAmount, "type": mapOrder(value)})
