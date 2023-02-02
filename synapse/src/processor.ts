@@ -6,23 +6,23 @@ import {Tokens, ChainId} from "@synapseprotocol/sdk"
 
 const Map: { [index: number]: [string, [number,string, string, number][]] } = {
   1: ["0x2796317b0fF8538F253012862c06787Adfb8cEb6",[
-    [1,"USDC", String(Tokens.USDC.address(1)), Number(Tokens.USDC.decimals(1))],
-    [2,"USDT", String(Tokens.USDT.address(1)), Number(Tokens.USDT.decimals(1))],
+    [1,"USDC", String(Tokens.USDC.address(1)), 6],
+    [2,"USDT", String(Tokens.USDT.address(1)), 6],
   ]],     // ethereum
 
   10: ["0xAf41a65F786339e7911F4acDAD6BD49426F2Dc6b",[
-    [1,"USDC", String(Tokens.USDC.address(10)), Number(Tokens.USDC.decimals(10))],
-    [2,"USDT", String(Tokens.USDT.address(10)), Number(Tokens.USDT.decimals(10))],
+    [1,"USDC", String(Tokens.USDC.address(10)), 6],
+    [2,"USDT", String(Tokens.USDT.address(10)), 6],
   ]],     // optimism
 
   137: ["0x8F5BBB2BB8c2Ee94639E55d5F41de9b4839C1280",[
-    [1,"USDC", String(Tokens.USDC.address(137)), Number(Tokens.USDC.decimals(137))],
-    [2,"USDT", String(Tokens.USDT.address(137)), Number(Tokens.USDT.decimals(137))],
+    [1,"USDC", String(Tokens.USDC.address(137)), 6],
+    [2,"USDT", String(Tokens.USDT.address(137)), 6],
   ]],     // polygon
 
   42161: ["0x6F4e8eBa4D337f874Ab57478AcC2Cb5BACdc19c9",[
-    [1,"USDC", String(Tokens.USDC.address(42161)), Number(Tokens.USDC.decimals(42161))],
-    [2,"USDT", String(Tokens.USDT.address(42161)), Number(Tokens.USDT.decimals(42161))],
+    [1,"USDC", String(Tokens.USDC.address(42161)), 6],
+    [2,"USDT", String(Tokens.USDT.address(42161)), 6],
   ]],     // arbitrum
 
   43114: ["0xC05e61d0E7a63D27546389B7aD62FdFf5A91aACE",[
