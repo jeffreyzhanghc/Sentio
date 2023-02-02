@@ -26,13 +26,13 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
   ]],     // arbitrum
 
   43114: ["0xC05e61d0E7a63D27546389B7aD62FdFf5A91aACE",[
-    [1,"USDC", String(Tokens.USDC.address(43114)), Number(Tokens.USDC.decimals(43114))],
-    [2,"USDT", String(Tokens.USDT.address(43114)), Number(Tokens.USDT.decimals(43114))],
+    [1,"USDC", String(Tokens.USDC.address(43114)), 6],
+    [2,"USDT", String(Tokens.USDT.address(43114)), 6],
   ]],     // avalanche
 
   250:["0xAf41a65F786339e7911F4acDAD6BD49426F2Dc6b",[
-    [1,"USDC", String(Tokens.USDC.address(250)), Number(Tokens.USDC.decimals(250))],
-    [2,"USDT", String(Tokens.USDT.address(250)), Number(Tokens.USDT.decimals(250))],
+    [1,"USDC", String(Tokens.USDC.address(250)), 6],
+    [2,"USDT", String(Tokens.USDT.address(250)), 6],
   ]] //fantom
 }
 const EthPrice = 1200
