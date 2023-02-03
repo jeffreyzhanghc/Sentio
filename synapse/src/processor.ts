@@ -1,7 +1,6 @@
 import { scaleDown } from '@sentio/sdk/lib/utils/token'
 import { token,chain } from '@sentio/sdk/lib/utils'
-import { SynapseProcessor, SynapseContext,TokenDepositAndSwapEvent,TokenDepositEvent,TokenMintEvent,TokenMintAndSwapEvent,TokenRedeemAndSwapEvent,TokenWithdrawAndRemoveEvent} from './types/synapse'
-import {Tokens, ChainId} from "@synapseprotocol/sdk"
+import { SynapseProcessor, SynapseContext,TokenDepositAndSwapEvent,TokenMintAndSwapEvent} from './types/synapse'
 
 
 const Map: { [index: number]: [string, [number,string, string, number][]] } = {
@@ -42,11 +41,12 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
   return async function (event: TokenDepositAndSwapEvent, ctx: SynapseContext) {
     var OutAmount = scaleDown(event.args.amount,decimal)
     const dstChain = chain.getChainName(event.args.chainId.toNumber())
-    if (event.args.tokenIndexTo == 2){
+    if (event.args.tokenIndexFrom == tokenidx){
         ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": dstChain})
     }
   }
 }
+
 
 
 
