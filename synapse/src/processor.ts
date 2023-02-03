@@ -55,20 +55,18 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
 }
 
 
-/*
+
 const handleSwapIn = function (chainId: string,tokenName: string, decimal: number,tokenidx:number) {
     return async function (event: TokenRedeemAndSwapEvent, ctx: SynapseContext) {
       var InAmount = scaleDown(event.args.amount,decimal)
       const srcChain = chain.getChainName(event.args.chainId.toNumber())
-      if (event.args.tokenIndexTo ==tokenidx){
+      if (event.args.tokenIndexFrom ==tokenidx){
           ctx.meter.Gauge("transfer_out").record(InAmount, { "token": tokenName, "dst": srcChain})
       }
     }
   }
-  .onEventTokenRedeemAndSwap(
-          handleSwapIn(chainId, tokenName, decimal,tokenidx)
-        )
-*/
+
+
 
 
 
@@ -78,7 +76,9 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
         .onEventTokenDepositAndSwap(
           handleSwapOut(chainId, tokenName, decimal,tokenidx),
         )
-        
+        .onEventTokenRedeemAndSwap(
+            handleSwapIn(chainId, tokenName, decimal,tokenidx)
+          )
     }
   }
 
