@@ -1,6 +1,6 @@
 import { scaleDown } from '@sentio/sdk/lib/utils/token'
 import { token,chain } from '@sentio/sdk/lib/utils'
-import { SynapseProcessor, SynapseContext,TokenDepositAndSwapEvent,TokenMintAndSwapEvent} from './types/synapse'
+import { SynapseProcessor, SynapseContext,TokenDepositAndSwapEvent,TokenRedeemAndSwapEvent TokenRedeemAndRemoveEvent} from './types/synapse'
 import {
     Bridge, 
     Tokens, 
@@ -56,12 +56,27 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
 
 
 
+const handleSwapIn = function (chainId: string,tokenName: string, decimal: number,tokenidx:number) {
+    return async function (event: TokenRedeemAndSwapEvent, ctx: SynapseContext) {
+      var InAmount = scaleDown(event.args.amount,decimal)
+      const srcChain = chain.getChainName(event.args.chainId.toNumber())
+      if (event.args.tokenIndexTo ==tokenidx){
+          ctx.meter.Gauge("transfer_out").record(InAmount, { "token": tokenName, "dst": srcChain})
+      }
+    }
+  }
+
+
+
 
 for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
     for (const [tokenidx,tokenName, tokenAddr, decimal] of tokenList) {
       SynapseProcessor.bind({ address: poolAddr, network: Number(chainId) })
         .onEventTokenDepositAndSwap(
           handleSwapOut(chainId, tokenName, decimal,tokenidx),
+        )
+        .onEventTokenRedeemAndSwap(
+          handleSwapIn(chainId, tokenName, decimal,tokenidx)
         )
     }
   }
