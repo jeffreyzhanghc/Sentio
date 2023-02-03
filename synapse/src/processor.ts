@@ -21,12 +21,12 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
     [2,"USDT", "0x86B3F23B6e90F5bbfac59b5b2661134Ef8Ffd255", 18],
   ]],     // optimism
 
-  137: ["0xff0047e2156b2d62055a77fE9aBBD01Baa11D54a",[
+  137: ["0x8F5BBB2BB8c2Ee94639E55d5F41de9b4839C1280",[
     [1,"USDC", "0xd69b31c3225728CC57ddaf9be532a4ee1620Be51", 18],
     [2,"USDT", "0xE3eeDa11f06a656FcAee19de663E84C7e61d3Cac", 18],
   ]],     // polygon
 
-  42161: ["0x230A1AC45690B9Ae1176389434610B9526d2f21b",[
+  42161: ["0x6F4e8eBa4D337f874Ab57478AcC2Cb5BACdc19c9",[
     [1,"USDC", "0x3405A1bd46B85c5C029483FbECf2F3E611026e45", 18],
     [2,"USDT", "0x05e481B19129B560E921E487AdB281E70Bdba463", 18],
   ]],     // arbitrum
