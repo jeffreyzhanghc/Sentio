@@ -39,7 +39,12 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
   250:["0xAf41a65F786339e7911F4acDAD6BD49426F2Dc6b",[
     [1,"USDC", '0x95bf7E307BC1ab0BA38ae10fc27084bC36FcD605', 18],
     [2,"USDT", '0x2823D10DA533d9Ee873FEd7B16f4A962B2B7f181', 18],
-  ]] //fantom
+  ]], //fantom
+
+  56:["0xd123f70AE324d34A9E76b67a27bf77593bA8749f",[
+    [1,"USDC", '0x8965349fb649a33a30cbfda057d8ec2c48abe2a2', 18],
+    [2,"USDT", '0xedf0c420bc3b92b961c6ec411cc810ca81f5f21a', 18],
+  ]] //binance
 }
 const EthPrice = 1200
 
@@ -48,7 +53,7 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
   return async function (event: TokenDepositAndSwapEvent, ctx: SynapseContext) {
     var OutAmount = scaleDown(event.args.amount,decimal)
     const dstChain = chain.getChainName(event.args.chainId.toNumber())
-    if (event.args.tokenIndexFrom ==tokenidx){
+    if (event.args.tokenIndexTo ==tokenidx){
         ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": dstChain})
     }
   }
