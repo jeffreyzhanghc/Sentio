@@ -60,7 +60,7 @@ const handleSwapIn = function (chainId: string,tokenName: string, decimal: numbe
     return async function (event: TokenRedeemAndSwapEvent, ctx: SynapseContext) {
       var InAmount = scaleDown(event.args.amount,decimal)
       const srcChain = chain.getChainName(event.args.chainId.toNumber())
-      if (event.args.tokenIndexFrom ==tokenidx){
+      if (event.args.tokenIndexTo ==tokenidx){
           ctx.meter.Gauge("transfer_in").record(InAmount, { "token": tokenName, "dst": srcChain})
       }
     }
