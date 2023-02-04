@@ -48,7 +48,7 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
   return async function (event: TokenDepositAndSwapEvent, ctx: SynapseContext) {
     var OutAmount = scaleDown(event.args.amount,decimal)
     const dstChain = chain.getChainName(event.args.chainId.toNumber())
-    if (event.args.tokenIndexTo ==tokenidx){
+    if (event.args.tokenIndexFrom ==tokenidx){
         ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": dstChain})
     }
   }
