@@ -61,7 +61,7 @@ const handleSwapIn = function (chainId: string,tokenName: string, decimal: numbe
       var InAmount = scaleDown(event.args.amount,decimal)
       const srcChain = chain.getChainName(event.args.chainId.toNumber())
       if (event.args.tokenIndexFrom ==tokenidx){
-          ctx.meter.Gauge("transfer_out").record(InAmount, { "token": tokenName, "dst": srcChain})
+          ctx.meter.Gauge("transfer_in").record(InAmount, { "token": tokenName, "dst": srcChain})
       }
     }
   }
