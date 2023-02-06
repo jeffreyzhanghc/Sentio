@@ -95,7 +95,7 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
     for (const [tokenidx,tokenName, tokenAddr, decimal] of tokenList) {
       if(Number(chainId) ==1){
         SynapseProcessor.bind({ address: poolAddr, network: Number(chainId) })
-        .onEventTokenRedeemAndSwap(
+        .onEventTokenDepositAndSwap(
             handleSwapOut_ETH(tokenName, decimal,tokenidx)
           )
       }
