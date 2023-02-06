@@ -103,7 +103,9 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
         .onEventTokenDeposit(
             Deposit(chainId,tokenName,decimal,tokenidx,tokenAddr)
         )
-        .onEventTokenRedeem(chainId,tokenName,decimal,tokenidx,tokenAddr)
+        .onEventTokenRedeem(
+            Redeem(chainId,tokenName,decimal,tokenidx,tokenAddr)
+        )
     }
   }
 
