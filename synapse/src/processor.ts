@@ -1,6 +1,6 @@
 import { scaleDown } from '@sentio/sdk/lib/utils/token'
-import { token,chain } from '@sentio/sdk/lib/utils'
-import { SynapseProcessor, SynapseContext,Tokenswap} from './types/synapse'
+import { chain } from '@sentio/sdk/lib/utils'
+import { SynapseProcessor, SynapseContext,TokenDepositEvent,TokenRedeemAndSwapEvent,TokenRedeemAndRemoveEvent} from './types/synapse'
 
 
 
