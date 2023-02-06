@@ -93,18 +93,13 @@ const handleSwapOut = function (tokenName: string, decimal: number,tokenidx:numb
 
 for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
     for (const [tokenidx,tokenName, tokenAddr, decimal] of tokenList) {
-      if(Number(chainId) ==1){
         SynapseProcessor.bind({ address: poolAddr, network: Number(chainId) })
         .onEventTokenDepositAndSwap(
             handleSwapOut_ETH(tokenName, decimal,tokenidx)
           )
-      }
-      else{
-        SynapseProcessor.bind({ address: poolAddr, network: Number(chainId) })
         .onEventTokenRedeemAndSwap(
             handleSwapOut(tokenName, decimal,tokenidx)
           )
-      }
     }
   }
 
