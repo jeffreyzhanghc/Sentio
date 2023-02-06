@@ -21,7 +21,7 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
     [2,"USDT", "0x86B3F23B6e90F5bbfac59b5b2661134Ef8Ffd255", 18],
   ]],     // optimism
 
-  137: ["0x8F5BBB2BB8c2Ee94639E55d5F41de9b4839C1280",[
+  137: ["0x1c6aE197fF4BF7BA96c66C5FD64Cb22450aF9cC8",[
     [1,"USDC", "0xd69b31c3225728CC57ddaf9be532a4ee1620Be51", 18],
     [2,"USDT", "0xE3eeDa11f06a656FcAee19de663E84C7e61d3Cac", 18],
   ]],     // polygon
