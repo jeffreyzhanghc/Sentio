@@ -42,7 +42,7 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
 }
 const EthPrice = 1200
 
-/*
+
 const handleSwapOut = function (chainId: string,tokenName: string, decimal: number,tokenidx:number) {
   return async function (event: TokenRedeemAndRemoveEvent, ctx: SynapseContext) {
     var OutAmount = scaleDown(event.args.amount,decimal)
@@ -52,7 +52,7 @@ const handleSwapOut = function (chainId: string,tokenName: string, decimal: numb
     }
   }
 }
-*/
+
 
 
 const handleSwapIn = function (tokenName: string, decimal: number,tokenidx:number) {
