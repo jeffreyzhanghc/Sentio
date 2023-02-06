@@ -69,7 +69,7 @@ const Redeem = function (chainId: string,tokenName: string, decimal: number,toke
     var OutAmount = scaleDown(event.args.amount,decimal)
     const dstChain = chain.getChainName(event.args.chainId.toNumber())
     if (event.args.token ==tokenAddr){
-        ctx.meter.Gauge("Deposit").record(OutAmount, { "token": tokenName, "dst": dstChain})
+        ctx.meter.Gauge("Redeem").record(OutAmount, { "token": tokenName, "dst": dstChain})
     }
   }
 }
@@ -100,6 +100,10 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
         .onEventTokenRedeemAndSwap(
             handleSwapOut(tokenName, decimal,tokenidx)
           )
+        .onEventTokenDeposit(
+            Deposit(chainId,tokenName,decimal,tokenidx,tokenAddr)
+        )
+        .onEventTokenRedeem(chainId,tokenName,decimal,tokenidx,tokenAddr)
     }
   }
 
