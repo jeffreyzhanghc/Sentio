@@ -64,7 +64,7 @@ const handleSwapOut = function (tokenName: string, decimal: number,tokenidx:numb
       }
     }
   }
-
+/*
   const handleSwapIn = function (tokenName: string, decimal: number,tokenidx:number) {
     return async function (event: TokenMintAndSwapEvent, ctx: SynapseContext) {
       var InAmount = scaleDown(event.args.amount,decimal)
@@ -73,7 +73,7 @@ const handleSwapOut = function (tokenName: string, decimal: number,tokenidx:numb
       }
     }
   }
-
+*/
 
 
 for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
@@ -85,9 +85,11 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
         .onEventTokenRedeemAndSwap(
             handleSwapOut(tokenName, decimal,tokenidx)
           )
+        /*
         .onEventTokenMintAndSwap(
             handleSwapIn(tokenName, decimal,tokenidx)
           )
+        */
     }
   }
 
