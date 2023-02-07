@@ -1,6 +1,6 @@
 import { scaleDown } from '@sentio/sdk/lib/utils/token'
 import { chain } from '@sentio/sdk/lib/utils'
-import { SynapseProcessor,SynapseContext,TokenDepositAndSwapEvent,TokenRedeemAndRemoveEvent,TokenRedeemAndSwapEvent,TokenDepositEvent} from './types/synapse'
+import { SynapseProcessor,SynapseContext,TokenDepositAndSwapEvent,TokenRedeemAndSwapEvent,TokenMintAndSwapEvent} from './types/synapse'
 
 
 
@@ -43,15 +43,6 @@ const Map: { [index: number]: [string, [number,string, string, number][]] } = {
 const EthPrice = 1200
 
 
-const Deposit = function (chainId: string,tokenName: string, decimal: number,tokenidx:number,tokenAddr:string) {
-  return async function (event: TokenDepositEvent, ctx: SynapseContext) {
-    var OutAmount = scaleDown(event.args.amount,decimal)
-    const dstChain = chain.getChainName(event.args.chainId.toNumber())
-    if (event.args.token ==tokenAddr){
-        ctx.meter.Gauge("Deposit").record(OutAmount, { "token": tokenName, "dst": dstChain})
-    }
-  }
-}
 
 const handleSwapOut_ETH = function (tokenName: string, decimal: number,tokenidx:number) {
   return async function (event: TokenDepositAndSwapEvent, ctx: SynapseContext) {
@@ -64,30 +55,24 @@ const handleSwapOut_ETH = function (tokenName: string, decimal: number,tokenidx:
 }
 
 
-const Redeem = function (chainId: string,tokenName: string, decimal: number,tokenidx:number,tokenAddr:string) {
-  return async function (event: TokenDepositEvent, ctx: SynapseContext) {
-    var OutAmount = scaleDown(event.args.amount,decimal)
-    const dstChain = chain.getChainName(event.args.chainId.toNumber())
-    if (event.args.token ==tokenAddr){
-        ctx.meter.Gauge("Redeem").record(OutAmount, { "token": tokenName, "dst": dstChain})
-    }
-  }
-}
-
-
-
-
 const handleSwapOut = function (tokenName: string, decimal: number,tokenidx:number) {
     return async function (event: TokenRedeemAndSwapEvent, ctx: SynapseContext) {
       var OutAmount = scaleDown(event.args.amount,decimal)
-      const srcChain = chain.getChainName(event.args.chainId.toNumber())
+      const dstChain = chain.getChainName(event.args.chainId.toNumber())
       if (event.args.tokenIndexTo ==tokenidx){
-          ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": srcChain})
+          ctx.meter.Gauge("transfer_out").record(OutAmount, { "token": tokenName, "dst": dstChain})
       }
     }
   }
 
-
+  const handleSwapIn = function (tokenName: string, decimal: number,tokenidx:number) {
+    return async function (event: TokenMintAndSwapEvent, ctx: SynapseContext) {
+      var InAmount = scaleDown(event.args.amount,decimal)
+      if (event.args.tokenIndexTo ==tokenidx){
+          ctx.meter.Gauge("transfer_In").record(InAmount, { "token": tokenName})
+      }
+    }
+  }
 
 
 
@@ -100,12 +85,9 @@ for (const [chainId, [poolAddr, tokenList]] of Object.entries(Map)) {
         .onEventTokenRedeemAndSwap(
             handleSwapOut(tokenName, decimal,tokenidx)
           )
-        .onEventTokenDeposit(
-            Deposit(chainId,tokenName,decimal,tokenidx,tokenAddr)
-        )
-        .onEventTokenRedeem(
-            Redeem(chainId,tokenName,decimal,tokenidx,tokenAddr)
-        )
+        .onEventTokenMintAndSwap(
+            handleSwapIn(tokenName, decimal,tokenidx)
+          )
     }
   }
 
